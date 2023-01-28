@@ -21,3 +21,178 @@ paths:
       responses:
         "200":
           description: "OK"
+  "/tasks":
+    post:
+      summary: Add a new task
+      tags:
+      - task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        201:
+          description: Task added successfully
+        400:
+          description: Invalid request
+    get:
+      summary: Get all tasks
+      tags:
+      - task
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [todo, done, all]
+            default: all
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'  
+  "/tasks/{task_id}":
+    parameters:
+      - $ref: "#/components/parameters/task_id"
+    put:
+      summary: Update a task
+      tags:
+      - task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        200:
+          description: Task updated successfully
+        400:
+          description: Invalid request
+    delete:
+      summary: Delete a task
+      tags:
+      - task
+      responses:
+        204:
+          description: Task deleted successfully
+        400:
+          description: Invalid request
+  /tags:
+    post:
+      summary: Add a new tag
+      tags:
+      - tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tag"
+      responses:
+        201:
+          description: Category added successfully
+        400:
+          description: Invalid request
+    get:
+      summary: Get all categories
+      tags:
+      - tags
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tag"
+  "/tags/{tag_id}":
+    parameters:
+      - $ref: "#/components/parameters/tag_id"
+    put:
+      summary: Update a tag
+      tags:
+      - tags
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tag"
+      responses:
+        200:
+          description: Tag updated successfully
+        400:
+          description: Invalid request
+    delete:
+      summary: Delete a tag
+      tags:
+      - tags
+      responses:
+        204:
+          description: Category deleted successfully
+        400:
+          description: Invalid request
+components:
+  parameters:
+    task_id:
+      in: path
+      name: task_id
+      schema:
+        type: string
+        format: uuid
+      required: true
+    tag_id:
+      in: path
+      name: tag_id
+      schema:
+        type: string
+        format: uuid
+      required: true
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the task
+        title:
+          type: string
+          description: Title of the task
+        description:
+          type: string
+          description: Description of the task
+        due_date:
+          type: string
+          format: date-time
+          description: Due date of the task
+        tags:
+          type: array
+          description: tags of the task
+          items:
+            $ref: "#/components/schemas/Tag"
+        status:
+          $ref: "#/components/schemas/Status"
+    Status:
+      type: string
+      enum: [todo, done]
+      default: todo
+      description: Status of the task
+    Tag:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the tag
+        name:
+          type: string
+          description: Name of the tag

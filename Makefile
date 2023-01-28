@@ -2,7 +2,7 @@
 gen-api:
 	mkdir -p ./gen/api
 	go install github.com/deepmap/oapi-codegen/cmd/oapi-codegen@v1.11.0
-	oapi-codegen --config config/oapi-codegen/server.yaml ./api/openapi.yaml
+	oapi-codegen --config config/oapi-codegen/server.yml ./docs/openapi.yml
 
 .PHONY: terraform-fix-lint
 terraform-fix-lint:
