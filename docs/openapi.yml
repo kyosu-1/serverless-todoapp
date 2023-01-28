@@ -24,6 +24,8 @@ paths:
   "/tasks":
     post:
       summary: Add a new task
+      tags:
+      - task
       requestBody:
         required: true
         content:
@@ -37,6 +39,8 @@ paths:
           description: Invalid request
     get:
       summary: Get all tasks
+      tags:
+      - task
       parameters:
         - name: status
           in: query
@@ -58,6 +62,8 @@ paths:
       - $ref: "#/components/parameters/task_id"
     put:
       summary: Edit a task
+      tags:
+      - task
       requestBody:
         required: true
         content:
@@ -71,6 +77,8 @@ paths:
           description: Invalid request
     delete:
       summary: Delete a task
+      tags:
+      - task
       responses:
         204:
           description: Task deleted successfully
