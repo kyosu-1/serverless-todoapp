@@ -61,7 +61,7 @@ paths:
     parameters:
       - $ref: "#/components/parameters/task_id"
     put:
-      summary: Edit a task
+      summary: Update a task
       tags:
       - task
       requestBody:
