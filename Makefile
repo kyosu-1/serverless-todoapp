@@ -8,6 +8,10 @@ gen-api:
 terraform-fix-lint:
 	for file in $$(find deployments/ -type f -name '*.tf'); do terraform fmt $$file; done
 
+.PHONY: go-fix-lint
+go-fix-lint:
+	find . -print | grep --regex '.*\.go$$' | xargs goimports -w -local "github.com/kyosu-1/serverless-todoapp"
+
 .PHONY: test
 test:
 	go test -v ./...
