@@ -1,0 +1,23 @@
+openapi: "3.0.0"
+info:
+  title: sharelink
+  version: 0.0.1
+servers:
+  - url: https://todoapp.kyosutech.com
+    description: プロダクション API
+  - url: http://{host}:{port}
+    description: 開発用
+    variables:
+      host:
+        default: localhost
+      port:
+        default: '8000'
+paths:
+  "/_health":
+    get:
+      summary: "health check"
+      tags:
+      - health
+      responses:
+        "200":
+          description: "OK"
