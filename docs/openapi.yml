@@ -84,11 +84,66 @@ paths:
           description: Task deleted successfully
         400:
           description: Invalid request
+  /tags:
+    post:
+      summary: Add a new tag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tag"
+      responses:
+        201:
+          description: Category added successfully
+        400:
+          description: Invalid request
+    get:
+      summary: Get all categories
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tag"
+  "/tags/{tag_id}":
+    parameters:
+      - $ref: "#/components/parameters/tag_id"
+    put:
+      summary: Update a tag
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tag"
+      responses:
+        200:
+          description: Tag updated successfully
+        400:
+          description: Invalid request
+    delete:
+      summary: Delete a tag
+      responses:
+        204:
+          description: Category deleted successfully
+        400:
+          description: Invalid request
 components:
   parameters:
     task_id:
       in: path
       name: task_id
+      schema:
+        type: string
+        format: uuid
+      required: true
+    tag_id:
+      in: path
+      name: tag_id
       schema:
         type: string
         format: uuid
@@ -111,9 +166,11 @@ components:
           type: string
           format: date-time
           description: Due date of the task
-        category:
-          type: string
-          description: Category of the task
+        tags:
+          type: array
+          description: tags of the task
+          items:
+            $ref: "#/components/schemas/Tag"
         status:
           $ref: "#/components/schemas/Status"
     Status:
@@ -121,3 +178,13 @@ components:
       enum: [todo, done]
       default: todo
       description: Status of the task
+    Tag:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the tag
+        name:
+          type: string
+          description: Name of the tag
