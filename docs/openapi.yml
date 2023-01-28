@@ -87,6 +87,8 @@ paths:
   /tags:
     post:
       summary: Add a new tag
+      tags:
+      - tags
       requestBody:
         required: true
         content:
@@ -100,6 +102,8 @@ paths:
           description: Invalid request
     get:
       summary: Get all categories
+      tags:
+      - tags
       responses:
         200:
           description: Success
@@ -114,6 +118,8 @@ paths:
       - $ref: "#/components/parameters/tag_id"
     put:
       summary: Update a tag
+      tags:
+      - tags
       requestBody:
         required: true
         content:
@@ -127,6 +133,8 @@ paths:
           description: Invalid request
     delete:
       summary: Delete a tag
+      tags:
+      - tags
       responses:
         204:
           description: Category deleted successfully
