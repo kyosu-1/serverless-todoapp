@@ -21,3 +21,95 @@ paths:
       responses:
         "200":
           description: "OK"
+  "/tasks":
+    post:
+      summary: Add a new task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        201:
+          description: Task added successfully
+        400:
+          description: Invalid request
+    get:
+      summary: Get all tasks
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [todo, done, all]
+            default: all
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'  
+  "/tasks/{task_id}":
+    parameters:
+      - $ref: "#/components/parameters/task_id"
+    put:
+      summary: Edit a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      responses:
+        200:
+          description: Task updated successfully
+        400:
+          description: Invalid request
+    delete:
+      summary: Delete a task
+      responses:
+        204:
+          description: Task deleted successfully
+        400:
+          description: Invalid request
+components:
+  parameters:
+    task_id:
+      in: path
+      name: task_id
+      schema:
+        type: string
+        format: uuid
+      required: true
+  schemas:
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: ID of the task
+        title:
+          type: string
+          description: Title of the task
+        description:
+          type: string
+          description: Description of the task
+        due_date:
+          type: string
+          format: date-time
+          description: Due date of the task
+        category:
+          type: string
+          description: Category of the task
+        status:
+          $ref: "#/components/schemas/Status"
+    Status:
+      type: string
+      enum: [todo, done]
+      default: todo
+      description: Status of the task
